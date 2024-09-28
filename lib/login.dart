@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movie/home.dart'; // Ensure this is the correct path to HomeScreen
-import 'package:movie/movieDetails.dart';
-import 'package:movie/register.dart'; // Ensure this is the correct path if needed
+import 'package:movie/home.dart'; 
+import 'package:movie/register.dart';
+import 'package:movie/splashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
+import 'WidgetVariable.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -43,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
                 border: OutlineInputBorder(),
                 label: Text("Username"),
                 labelStyle: TextStyle(color: Colors.white),
-
               ),
             ),
 
@@ -51,7 +52,8 @@ class _LoginPageState extends State<LoginPage> {
 
             // Password TextField
             TextField(
-              controller: _passwordController, // Use the password controller here
+              controller:
+                  _passwordController, // Use the password controller here
               style: const TextStyle(color: Colors.white),
               obscureText: true, // Mask the password input
               decoration: const InputDecoration(
@@ -64,13 +66,12 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 30,
             ),
-            
-            
+
 // Space before button
             OutlinedButton(
-              
               onPressed: () {
                 checkLogin(context);
+                checkData();
               },
               child: const Text(
                 "Login",
@@ -86,17 +87,20 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 Text("Don't you have an account?"),
-                TextButton(onPressed: (){
-                  Navigator.push(context,MaterialPageRoute(builder:  (context)=>RegisterPage()));
-                }, child: Text("Sign up Here!",style: TextStyle(color: Colors.red),)),
-                 
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()));
+                    },
+                    child: Text(
+                      "Sign up Here!",
+                      style: TextStyle(color: Colors.red),
+                    )),
               ],
             ),
-            
-            
-            
           ],
         ),
       ),
@@ -104,32 +108,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void checkLogin(BuildContext context) {
-    String username = "sinan"; 
+    String username = "sinan";
     String password = "sinan";
 
-    if (_usernameController.text == username && _passwordController.text == password) {
+    if (_usernameController.text == username &&
+        _passwordController.text == password) {
+                  ScaffoldMessenger.of(context).showSnackBar(alertsnack(text: "Login success"));
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
+
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Color.fromARGB(255, 87, 87, 87),
-          margin: EdgeInsets.all(15),
-          behavior: SnackBarBehavior.floating,
-          content: Text(
-            "Username and password don't match",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-        ),
+       alertsnack(text: "Invalid username and password"),
       );
     }
   }
+  
+  Future<void> checkData()async {
+    SharedPreferences _checkData = await SharedPreferences.getInstance();
+_checkData.setBool(key_login,true);
+  }
 }
-
-

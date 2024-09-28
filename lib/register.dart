@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie/home.dart';
 import 'package:movie/login.dart';
+import 'package:movie/splashScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'WidgetVariable.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({super.key});
@@ -75,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
               width: double.infinity,
               child: OutlinedButton(
                   onPressed: () {
-                    checkRegiter();
+                    CheckLog();
                   },
                   child: Text(
                     "Sign Up",
@@ -110,27 +113,32 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     ));
-  }
 
-  void checkRegiter() {
-    if (_registerUser.text.isNotEmpty && _registerPass.text.isNotEmpty) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+  
+
+    Future<void> CheckLog() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+  
+
+  String id = _registerUser.text;
+  String password = _registerPass.text;
+
+
+
+     if (id.isNotEmpty && password.isNotEmpty) {
+      await _pref.setString('userId', id);
+      await _pref.setString('userPassword', password);
+      ScaffoldMessenger.of(context).showSnackBar(alertsnack(text: "Registration Success"));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            backgroundColor: const Color.fromARGB(255, 87, 87, 87),
-            behavior: SnackBarBehavior.floating,
-            margin: EdgeInsets.all(20),
-            content: Text("invalid input",
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              
-            ),
-            )),
-      );
+      print("erorr");
+      ScaffoldMessenger.of(context).showSnackBar(alertsnack(text: "invalid username and password"));
     }
   }
-}
+          
+  }
+  
+
+  
+  
