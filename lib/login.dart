@@ -67,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
             
             
 // Space before button
-            ElevatedButton(
+            OutlinedButton(
+              
               onPressed: () {
                 checkLogin(context);
               },

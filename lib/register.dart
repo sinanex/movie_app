@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:movie/home.dart';
 import 'package:movie/login.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _registerUser = TextEditingController();
+  final TextEditingController _registerPass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +20,10 @@ class _RegisterPageState extends State<RegisterPage> {
       padding: EdgeInsets.all(15),
       child: Column(
         children: [
-          SizedBox(
-            height: 100,
+          const SizedBox(
+            height: 120,
           ),
-          Row(
+          const Row(
             children: [
               Text(
                 "Register",
@@ -30,44 +34,49 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-           Align(
-            alignment: Alignment.topLeft,
-            child: Text("create your  account  ",
-            style: TextStyle(
-              fontSize: 15,
-              
-            ),)),
+          const Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "create your account  ",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
           const SizedBox(
             height: 60,
           ),
-         
           TextField(
-            decoration: InputDecoration(
+            controller: _registerUser,
+            decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person_2_outlined),
                 label: Text(
                   "username",
                 ),
                 border: OutlineInputBorder()),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           TextField(
+            controller: _registerPass,
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.lock_outline),
                 label: Text('password'),
                 border: OutlineInputBorder()),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           Container(
               width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {},
+              child: OutlinedButton(
+                  onPressed: () {
+                    checkRegiter();
+                  },
                   child: Text(
                     "Sign Up",
                     style: TextStyle(
@@ -80,7 +89,6 @@ class _RegisterPageState extends State<RegisterPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              
               Text(
                 "already registred?    ",
               ),
@@ -102,5 +110,27 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     ));
+  }
+
+  void checkRegiter() {
+    if (_registerUser.text.isNotEmpty && _registerPass.text.isNotEmpty) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: const Color.fromARGB(255, 87, 87, 87),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.all(20),
+            content: Text("invalid input",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              
+            ),
+            )),
+      );
+    }
   }
 }
