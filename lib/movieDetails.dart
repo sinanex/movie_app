@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MovieDetails extends StatelessWidget {
-  MovieDetails({super.key});
+  const MovieDetails({super.key});
   Widget movieIcons(Widget? icons) {
     return IconButton(
       iconSize: 40,
@@ -19,7 +19,7 @@ class MovieDetails extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 250,
               child: Image.network(
@@ -28,8 +28,8 @@ class MovieDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                movieIcons(Icon(Icons.download_rounded)),
-                movieIcons(Icon(Icons.play_circle)),
+                movieIcons(const Icon(Icons.download_rounded)),
+                movieIcons(const Icon(Icons.play_circle)),
               ],
             ),
             const ListTile(

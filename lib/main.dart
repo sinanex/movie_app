@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movie/home.dart';
+import 'package:movie/movieDetails.dart';
+import 'package:movie/register.dart';
 import 'package:movie/splashScreen.dart';
 import 'login.dart';
 
@@ -19,7 +22,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: Splashscreen(),
+       routes: {
+        '/':(context)=> Splashscreen(),
+        "/homeScreen":(context)=>HomeScreen(),
+        "/movie":(context)=>MovieDetails(),
+        "/login":(context)=>LoginPage(),
+        "/reg":(context)=>RegisterPage(),
+       },
+       initialRoute: '/',
     );
   }
 }

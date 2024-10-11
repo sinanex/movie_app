@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 SnackBar alertsnack({required String text}) {
   return SnackBar(
+    duration: Duration(seconds: 1),
     backgroundColor: Color.fromARGB(255, 87, 87, 87),
     margin: EdgeInsets.all(15),
     behavior: SnackBarBehavior.floating,

@@ -21,97 +21,99 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         body: Padding(
       padding: EdgeInsets.all(15),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 120,
-          ),
-          const Row(
-            children: [
-              Text(
-                "Register",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "create your account  ",
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-          const SizedBox(
-            height: 60,
-          ),
-          TextField(
-            controller: _registerUser,
-            decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.person_2_outlined),
-                label: Text(
-                  "username",
-                ),
-                border: OutlineInputBorder()),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          TextField(
-            controller: _registerPass,
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock_outline),
-                label: Text('password'),
-                border: OutlineInputBorder()),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          Container(
-              width: double.infinity,
-              child: OutlinedButton(
-                  onPressed: () {
-                    CheckLog();
-                  },
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ))),
-          SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "already registred?    ",
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage()));
-                },
-                child: Text(
-                  "Login Here!",
+      child: ListView(
+        children: [ Column(
+          children: [
+            const SizedBox(
+              height: 120,
+            ),
+            const Row(
+              children: [
+                Text(
+                  "Register",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                    fontSize: 25,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "create your account  ",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+            const SizedBox(
+              height: 60,
+            ),
+            TextField(
+              controller: _registerUser,
+              decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  label: Text(
+                    "username",
+                  ),
+                  border: OutlineInputBorder()),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            TextField(
+              obscureText: true,
+              controller: _registerPass,
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock_outline),
+                  label: Text('password'),
+                  border: OutlineInputBorder()),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Container(
+                width: double.infinity,
+                child: OutlinedButton(
+                    onPressed: () {
+                      CheckLog();
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ))),
+            SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "already registred?    ",
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/login");
+                  },
+                  child: Text(
+                    "Login Here!",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ]),
     ));
 
   }
@@ -124,13 +126,13 @@ class _RegisterPageState extends State<RegisterPage> {
   String id = _registerUser.text;
   String password = _registerPass.text;
 
-
+     _pref.setBool(key_login, true);
 
      if (id.isNotEmpty && password.isNotEmpty) {
       await _pref.setString('userId', id);
       await _pref.setString('userPassword', password);
       ScaffoldMessenger.of(context).showSnackBar(alertsnack(text: "Registration Success"));
-       Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+       Navigator.pushNamed(context, '/homeScreen');
     } else {
       print("erorr");
       ScaffoldMessenger.of(context).showSnackBar(alertsnack(text: "invalid username and password"));

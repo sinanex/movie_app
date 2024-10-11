@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie/login.dart';
-import 'package:movie/movieDetails.dart';
 import 'package:movie/splashScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -23,6 +24,12 @@ class HomeScreen extends StatelessWidget {
     {"title": "manjummal boys", "subtitle": "movie"},
     {"title": "premalu", "subtitle": "movie"}
   ];
+  Future<void> getname()async{
+  SharedPreferences pref = await SharedPreferences.getInstance();
+ String? name = pref.getString('userId');
+
+
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +42,11 @@ class HomeScreen extends StatelessWidget {
                     clearPref();
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
                       (Route<dynamic> route) => false,
                     );
                   },
-                  icon: Icon(Icons.logout)),
+                  icon: const Icon(Icons.logout)),
             )
           ],
           automaticallyImplyLeading: false,
@@ -52,26 +59,24 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         body: Container(
+          
           child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: movieList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MovieDetails()));
+                    Navigator.pushNamed(context, '/movie');
                   },
-                  leading: Icon(Icons.movie),
-                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                  leading: const Icon(Icons.movie),
+                  trailing: const Icon(Icons.arrow_forward_ios_outlined),
                   title: Text(
                     movieList[index]["title"]!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
                     movieList[index]['subtitle']!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -81,7 +86,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Future<void> clearPref() async {
-    SharedPreferences _clearData = await SharedPreferences.getInstance();
-    _clearData.remove(key_login);
+    SharedPreferences clearData = await SharedPreferences.getInstance();
+    clearData.remove(key_login);
   }
 }
